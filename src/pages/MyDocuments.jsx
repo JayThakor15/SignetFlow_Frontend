@@ -5,6 +5,8 @@ import Navbar from "../components/Navbar";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { Download, Eye, Trash2 } from "lucide-react";
+import Footer from "../components/Footer";
+
 
 export default function MyDocuments() {
   const [docs, setDocs] = useState([]);
@@ -175,6 +177,7 @@ export default function MyDocuments() {
           </div>
         </div>
       )}
+      <Footer className="mt-22"/>
     </div>
   );
 }

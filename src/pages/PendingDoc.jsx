@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { Download, Eye, Trash2 } from "lucide-react";
+import Footer from "../components/Footer";
 
 const PendingDoc = () => {
   const [loading, setLoading] = useState(true);
@@ -122,6 +123,7 @@ const PendingDoc = () => {
           </div>
         )}
       </div>
+      <Footer/>
     </div>
   );
 };

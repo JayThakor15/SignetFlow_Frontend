@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { Download, Eye, Trash2 } from "lucide-react";
 import { FiInfo } from "react-icons/fi";
+import Footer from "../components/Footer";
 
 const SignedDoc = () => {
   const [loading, setLoading] = useState(true);
@@ -283,6 +284,7 @@ const SignedDoc = () => {
           </div>
         </div>
       </dialog>
+      <Footer/>
     </div>
   );
 };

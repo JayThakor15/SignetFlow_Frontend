@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import API from "../utils/api";
 import Navbar from "../components/Navbar";
 import { motion } from "framer-motion";
+import Footer from "../components/Footer";
 
 const RejectedDoc = () => {
   const [loading, setLoading] = useState(true);
@@ -92,6 +93,7 @@ const RejectedDoc = () => {
           </div>
         )}
       </div>
+      <Footer/>
     </div>
   );
 };

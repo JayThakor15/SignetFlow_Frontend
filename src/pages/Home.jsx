@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Upload from "../components/Upload";
 import { TypeAnimation } from "react-type-animation";
 import API from "../utils/api";
+import Footer from "../components/Footer";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -72,12 +73,11 @@ export default function Home() {
         });
         setrejected(res.data);
         console.log(rejected);
-        
       } catch (error) {
         console.error("Error in fetching Docs", error);
       }
     };
-    fetchRejecDoc()
+    fetchRejecDoc();
   }, []);
   // Logout handler
   const handleLogout = () => {
@@ -90,7 +90,7 @@ export default function Home() {
   const isLoggedIn = !!localStorage.getItem("token");
 
   return (
-    <div className="min-h-screen">
+    <div className="">
       <Navbar />
       {/* Logout button */}
       {isLoggedIn && (
@@ -174,6 +174,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Footer className="!p-10 !h-32" />
     </div>
   );
 }

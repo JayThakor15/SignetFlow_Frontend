@@ -5,9 +5,11 @@ import Register from "./Register";
 import Login from "./Login";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 
 export default function LandingPage() {
-    const [showLogin, setShowLogin] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
   const navigate = useNavigate();
 
   // Handler to show login after successful registration
@@ -19,10 +21,9 @@ export default function LandingPage() {
   // Handler to show register when user clicks "Create new account"
   const handleShowRegister = () => setShowLogin(false);
 
-
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-amber-100 overflow-y-hidden">
-     
+      <Navbar />
       <div className="flex flex-col md:flex-row w-full justify-center gap-2 flex-1">
         <div className="left w-full md:w-[60%] flex flex-col items-center justify-center px-4 py-8">
           <motion.h1
@@ -54,6 +55,7 @@ export default function LandingPage() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import pdfWorker from "pdfjs-dist/build/pdf.worker.min?url";
 import { DndContext, useDraggable } from "@dnd-kit/core";
 import { toast, Toaster } from "react-hot-toast";
-import { Eye } from "lucide-react";
+import Footer from "../components/Footer";
 
 pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -110,7 +110,7 @@ export default function PDFPreview() {
         "/signature/place",
         {
           fileId: doc._id,
-          pageNumber: currentPage,
+          pageNumber: currentPage, // This ensures signature is placed on the selected page
           xCoordinate: x,
           yCoordinate: y,
           signature: signatureText,
@@ -270,6 +270,27 @@ export default function PDFPreview() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
+          {/* Navigation buttons for pages */}
+          <div className="flex items-center gap-2 mb-4">
+            <button
+              className="px-3 py-1 rounded bg-amber-200 hover:bg-amber-300"
+              disabled={currentPage <= 1}
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            >
+              Prev
+            </button>
+            <span>
+              Page {currentPage} of {numPages}
+            </span>
+            <button
+              className="px-3 py-1 rounded bg-amber-200 hover:bg-amber-300"
+              disabled={currentPage >= numPages}
+              onClick={() => setCurrentPage((p) => Math.min(numPages, p + 1))}
+            >
+              Next
+            </button>
+          </div>
+
           <div
             className="w-full max-h-[70vh] overflow-auto rounded-lg border border-amber-100 bg-gray-50 p-2 custom-scrollbar relative"
             style={{
@@ -315,7 +336,7 @@ export default function PDFPreview() {
                         }
                       }}
                     />
-                    {signing && index === 0 && (
+                    {signing && index + 1 === currentPage && (
                       <SignatureDraggable
                         signatureText={signatureText}
                         selectedFont={selectedFont}
@@ -416,7 +437,6 @@ export default function PDFPreview() {
                   onChange={(e) => setSelectedFont(e.target.value)}
                   className="border px-3 py-1 rounded w-full"
                 >
-                  <option value="'Cursive', cursive">Cursive</option>
                   <option value="'Great Vibes', cursive">Great Vibes</option>
                   <option value="'Dancing Script', cursive">
                     Dancing Script
