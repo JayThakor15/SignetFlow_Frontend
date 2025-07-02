@@ -128,7 +128,7 @@ export default function MyDocuments() {
                       <Eye className="w-5 h-5" />
                     </motion.button>
                     <a
-                      href={`https://signetflow-backend.onrender.com/${doc.filename}`}
+                      href={`https://signetflow-backend.onrender.com/uploads/${doc.filename}`}
                       download={doc.originalname}
                       className="bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded-lg font-semibold shadow transition-all flex items-center justify-center"
                       title="Download"
