@@ -155,17 +155,17 @@ const SignedDoc = () => {
               {docs.map((doc, idx) => (
                 <motion.div
                   key={doc._id}
-                  className="p-5 flex flex-col md:flex-row md:items-center justify-between bg-white/90 border border-amber-100 rounded-2xl shadow-lg hover:shadow-amber-200 transition"
+                  className="p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between bg-white/90 border border-amber-100 rounded-2xl shadow-lg hover:shadow-amber-200 transition overflow-x-auto"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: idx * 0.07 }}
                 >
-                  <div>
-                    <p className="font-bold text-gray-800 text-lg flex items-center gap-2">
+                  <div className="min-w-0">
+                    <p className="font-bold text-gray-800 text-base sm:text-lg flex items-center gap-2 break-all">
                       <span className="text-amber-500">📄</span>
                       {doc.originalname}
                     </p>
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-xs sm:text-sm text-gray-500 mt-1">
                       Uploaded on{" "}
                       <span className="font-medium">
                         {new Date(doc.uploadedAt).toLocaleString()}
@@ -177,7 +177,7 @@ const SignedDoc = () => {
                       </span>
                     )}
                   </div>
-                  <div className="flex flex-row gap-2 mt-4 md:mt-0 w-60">
+                  <div className="ml-0 md:ml-10 flex flex-row gap-2 sm:gap-4 mt-4 md:mt-0 flex-wrap">
                     {/* Preview */}
                     {doc.signedFile ? (
                       <motion.button
