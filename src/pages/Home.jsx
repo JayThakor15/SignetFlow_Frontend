@@ -90,7 +90,7 @@ export default function Home() {
   const isLoggedIn = !!localStorage.getItem("token");
 
   return (
-    <div className="">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-amber-100">
       <Navbar />
       {/* Logout button */}
       {isLoggedIn && (
@@ -103,78 +103,80 @@ export default function Home() {
           </button>
         </div>
       )}
-      <div className="flex justify-center">
-        <h1 className="text-3xl font-bold mb-4 text-amber-600">
-          {" "}
-          Hii
-          <span className="text-gray-700"> {username}</span>{" "}
-          <span className="text-amber-600">
-            <TypeAnimation
-              sequence={[
-                ", upload your file below...",
-                2000,
-                ", ready to sign documents?",
-                2000,
-                ", let’s manage your paperwork!",
-                2000,
-              ]}
-              wrapper="span"
-              cursor={true}
-              repeat={Infinity}
-              style={{ display: "inline-block" }}
-            />
-          </span>
-        </h1>
-      </div>
-      <div>
-        <Upload />
-      </div>
+      <div className="flex-1 flex flex-col">
+        <div className="flex justify-center">
+          <h1 className="text-3xl font-bold mb-4 text-amber-600">
+            {" "}
+            Hii
+            <span className="text-gray-700"> {username}</span>{" "}
+            <span className="text-amber-600">
+              <TypeAnimation
+                sequence={[
+                  ", upload your file below...",
+                  2000,
+                  ", ready to sign documents?",
+                  2000,
+                  ", let’s manage your paperwork!",
+                  2000,
+                ]}
+                wrapper="span"
+                cursor={true}
+                repeat={Infinity}
+                style={{ display: "inline-block" }}
+              />
+            </span>
+          </h1>
+        </div>
+        <div>
+          <Upload />
+        </div>
 
-      <div className="max-w-4xl mx-auto mt-12 p-8 bg-white/80 rounded-2xl shadow-2xl">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div
-            onClick={() => navigate("/my-documents")}
-            className="bg-blue-100 rounded-xl p-6 shadow flex flex-col items-center justify-center min-h-[160px] cursor-pointer transition hover:scale-105"
-          >
-            <span className="text-4xl mb-2">📄</span>
-            <span className="font-semibold text-lg">My Documents</span>
-            <span className="text-gray-500 text-sm mt-1">
-              {docs.length} uploaded
-            </span>
-          </div>
-          <div
-            onClick={() => navigate("/pending-doc")}
-            className="bg-amber-100 rounded-xl p-6 shadow flex flex-col items-center justify-center min-h-[160px] cursor-pointer transition hover:scale-105 text-center"
-          >
-            <span className="text-4xl mb-2">✍️</span>
-            <span className="font-semibold text-lg">Pending Signatures</span>
-            <span className="text-gray-500 text-sm mt-1">
-              {Pendocs.length} pending
-            </span>
-          </div>
-          <div
-            onClick={() => navigate("/signed-doc")}
-            className="bg-green-100 rounded-xl p-6 shadow flex flex-col items-center justify-center min-h-[160px] cursor-pointer transition hover:scale-105 text-center"
-          >
-            <span className="text-4xl mb-2">✅</span>
-            <span className="font-semibold text-lg">Completed</span>
-            <span className="text-gray-500 text-sm mt-1">
-              {Signeddocs.length} signed
-            </span>
-          </div>
-          <div
-            onClick={() => navigate("/rejected-doc")}
-            className="bg-red-100 rounded-xl p-6 shadow flex flex-col items-center justify-center min-h-[160px] cursor-pointer transition hover:scale-105 text-center"
-          >
-            <span className="text-4xl mb-2">❌</span>
-            <span className="font-semibold text-lg">Rejected Signatures</span>
-            <span className="text-gray-500 text-sm mt-1">
-              {rejected.length} rejected
-            </span>
+        <div className="max-w-4xl mx-auto mt-12 p-8 bg-white/80 rounded-2xl shadow-2xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div
+              onClick={() => navigate("/my-documents")}
+              className="bg-blue-100 rounded-xl p-6 shadow flex flex-col items-center justify-center min-h-[160px] cursor-pointer transition hover:scale-105"
+            >
+              <span className="text-4xl mb-2">📄</span>
+              <span className="font-semibold text-lg">My Documents</span>
+              <span className="text-gray-500 text-sm mt-1">
+                {docs.length} uploaded
+              </span>
+            </div>
+            <div
+              onClick={() => navigate("/pending-doc")}
+              className="bg-amber-100 rounded-xl p-6 shadow flex flex-col items-center justify-center min-h-[160px] cursor-pointer transition hover:scale-105 text-center"
+            >
+              <span className="text-4xl mb-2">✍️</span>
+              <span className="font-semibold text-lg">Pending Signatures</span>
+              <span className="text-gray-500 text-sm mt-1">
+                {Pendocs.length} pending
+              </span>
+            </div>
+            <div
+              onClick={() => navigate("/signed-doc")}
+              className="bg-green-100 rounded-xl p-6 shadow flex flex-col items-center justify-center min-h-[160px] cursor-pointer transition hover:scale-105 text-center"
+            >
+              <span className="text-4xl mb-2">✅</span>
+              <span className="font-semibold text-lg">Completed</span>
+              <span className="text-gray-500 text-sm mt-1">
+                {Signeddocs.length} signed
+              </span>
+            </div>
+            <div
+              onClick={() => navigate("/rejected-doc")}
+              className="bg-red-100 rounded-xl p-6 shadow flex flex-col items-center justify-center min-h-[160px] cursor-pointer transition hover:scale-105 text-center"
+            >
+              <span className="text-4xl mb-2">❌</span>
+              <span className="font-semibold text-lg">Rejected Signatures</span>
+              <span className="text-gray-500 text-sm mt-1">
+                {rejected.length} rejected
+              </span>
+            </div>
           </div>
         </div>
       </div>
-      <Footer className="!p-10 !h-32" />
+      <Footer />
     </div>
   );
 }
