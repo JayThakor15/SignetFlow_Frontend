@@ -247,7 +247,7 @@ export default function PDFPreview() {
     );
   }
 
-  const fileUrl = `ttps://signetflow-backend.onrender.com/${doc.filepath}`;
+  const fileUrl = `https://signetflow-backend.onrender.com/${doc.filepath}`;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-amber-100 flex flex-col items-center py-10 px-2">
