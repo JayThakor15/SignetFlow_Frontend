@@ -6,9 +6,19 @@ import { motion } from "framer-motion";
 import pdfWorker from "pdfjs-dist/build/pdf.worker.min?url";
 import { DndContext, useDraggable } from "@dnd-kit/core";
 import { toast, Toaster } from "react-hot-toast";
-import Footer from "../components/Footer";
 
 pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;
+
+// Custom hook to detect mobile
+function useIsMobile(breakpoint = 640) {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < breakpoint);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < breakpoint);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [breakpoint]);
+  return isMobile;
+}
 
 function SignatureDraggable({
   signatureText,
@@ -218,6 +228,8 @@ export default function PDFPreview() {
     setNumPages(numPages);
   };
 
+  const isMobile = useIsMobile();
+
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
@@ -249,6 +261,246 @@ export default function PDFPreview() {
 
   const fileUrl = `https://signetflow-backend.onrender.com/${doc.filepath}`;
 
+  // --- MOBILE UI ---
+  if (isMobile) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-amber-100 flex flex-col items-center py-4 px-1">
+        <Toaster position="top-center" />
+        <h2 className="text-base font-bold text-amber-600 mb-2 text-center break-all w-full px-1">
+          {doc.originalname}
+        </h2>
+        <div className="mt-1 text-red-600 text-xs text-center w-full">
+          <p>
+            Place it slightly below where you want the actual signature for better placement.
+          </p>
+        </div>
+        <div className="w-full flex flex-col gap-2">
+          <motion.div
+            className="bg-white/90 rounded-xl shadow p-1 flex flex-col items-center relative min-w-0"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            <div className="flex items-center gap-1 mb-2 justify-center w-full">
+              <button
+                className="px-2 py-1 rounded bg-amber-200 hover:bg-amber-300 text-xs"
+                disabled={currentPage <= 1}
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              >
+                Prev
+              </button>
+              <span className="text-xs">
+                Page {currentPage} of {numPages}
+              </span>
+              <button
+                className="px-2 py-1 rounded bg-amber-200 hover:bg-amber-300 text-xs"
+                disabled={currentPage >= numPages}
+                onClick={() => setCurrentPage((p) => Math.min(numPages, p + 1))}
+              >
+                Next
+              </button>
+            </div>
+            <div className="w-full max-w-full overflow-x-auto max-h-[60vh] rounded-lg border border-amber-100 bg-gray-50 p-1 relative">
+              <DndContext
+                onDragStart={(event) => {
+                  if (event.active.id === "signature") setIsDragging(true);
+                }}
+                onDragEnd={(event) => {
+                  if (event.active.id === "signature") {
+                    setIsDragging(false);
+                    const { delta } = event;
+                    const newX = position.x + delta.x;
+                    const newY = position.y + delta.y;
+                    setPosition({ x: newX, y: newY });
+                  }
+                }}
+              >
+                <Document
+                  file={fileUrl}
+                  onLoadSuccess={onDocumentLoadSuccess}
+                  loading={<div className="text-center py-8">Loading PDF...</div>}
+                  error={
+                    <div className="text-center py-8 text-red-500">
+                      Failed to load PDF.
+                    </div>
+                  }
+                >
+                  <div className="relative w-full overflow-x-auto">
+                    <Page
+                      pageNumber={currentPage}
+                      width={window.innerWidth - 24}
+                      className="mx-auto my-2 shadow"
+                      renderTextLayer={false}
+                      renderAnnotationLayer={false}
+                      onLoadSuccess={({ height }) => setRenderedPageHeight(height)}
+                    />
+                    {signing && (
+                      <SignatureDraggable
+                        signatureText={signatureText}
+                        selectedFont={selectedFont}
+                        position={position}
+                        setPosition={setPosition}
+                        isDragging={isDragging}
+                      />
+                    )}
+                    {placedSignatures
+                      .filter((sig) => sig.pageNumber === currentPage)
+                      .map((sig, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            position: "absolute",
+                            left: `${sig.xCoordinate}px`,
+                            top: `${sig.yCoordinate}px`,
+                            fontFamily: sig.font,
+                            fontSize: "16px",
+                            background: "#fff",
+                            color: "#000",
+                            pointerEvents: "auto",
+                            userSelect: "none",
+                            borderRadius: "6px",
+                            boxShadow: "0 1px 4px #0001",
+                            border: "1px solid #fbbf24",
+                            padding: "2px 6px",
+                            minWidth: "48px",
+                            maxWidth: "90vw",
+                            overflowWrap: "break-word",
+                          }}
+                        >
+                          <button
+                            onClick={() => handleRemoveSignature(sig._id)}
+                            style={{
+                              position: "absolute",
+                              top: "-10px",
+                              right: "-10px",
+                              background: "#fff",
+                              border: "1px solid #fbbf24",
+                              borderRadius: "50%",
+                              width: "18px",
+                              height: "18px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              cursor: "pointer",
+                              fontSize: "12px",
+                              color: "#f59e42",
+                              zIndex: 2,
+                            }}
+                            title="Remove signature"
+                          >
+                            ✖
+                          </button>
+                          {sig.signature}
+                        </div>
+                      ))}
+                  </div>
+                </Document>
+              </DndContext>
+            </div>
+          </motion.div>
+          {/* Controls */}
+          <div className="flex flex-col w-full gap-2 mt-2">
+            <button
+              onClick={() => {
+                setSigning(true);
+                const user = JSON.parse(localStorage.getItem("user"));
+                setSignatureText(user.name);
+              }}
+              className="bg-amber-600 text-white px-3 py-2 rounded hover:bg-amber-700 transition w-full text-sm"
+            >
+              ✍️ Sign Document
+            </button>
+            {signing && (
+              <div className="mb-2 text-right w-full flex flex-col justify-between">
+                <input
+                  type="text"
+                  value={signatureText}
+                  onChange={(e) => setSignatureText(e.target.value)}
+                  placeholder="Type your signature"
+                  className="border px-2 py-1 rounded w-full mb-2 text-sm"
+                  style={{ flex: 1 }}
+                />
+                <select
+                  value={selectedFont}
+                  onChange={(e) => setSelectedFont(e.target.value)}
+                  className="border px-2 py-1 rounded w-full text-sm"
+                >
+                  <option value="'Great Vibes', cursive">Great Vibes</option>
+                  <option value="'Dancing Script', cursive">Dancing Script</option>
+                  <option value="'Pacifico', cursive">Pacifico</option>
+                  <option value="'Satisfy', cursive">Satisfy</option>
+                  <option value="'Shadows Into Light', cursive">Shadows Into Light</option>
+                  <option value="'Caveat', cursive">Caveat</option>
+                  <option value="'Homemade Apple', cursive">Homemade Apple</option>
+                  <option value="'Indie Flower', cursive">Indie Flower</option>
+                </select>
+                <button
+                  onClick={() => handleDrop(position)}
+                  className="w-full px-4 py-2 rounded-lg hover:bg-green-600 transition bg-green-400 mt-2 text-sm"
+                >
+                  Save
+                </button>
+              </div>
+            )}
+            {placedSignatures.length > 0 && (
+              <div className="flex flex-row items-end gap-2">
+                <button
+                  onClick={handleFinalize}
+                  className="w-full font-medium text-white px-4 py-2 rounded-lg hover:bg-green-600 transition bg-green-500 text-sm"
+                >
+                  Accept
+                </button>
+                <button
+                  onClick={() => setShowRejectReason(true)}
+                  className="w-full font-medium text-white px-4 py-2 rounded-lg hover:bg-red-600 transition bg-red-400 text-sm"
+                >
+                  Reject
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+        {/* Modal for rejection reason */}
+        {showRejectReason && (
+          <dialog
+            open
+            className="modal"
+            onClose={() => setShowRejectReason(false)}
+          >
+            <div className="modal-box">
+              <h3 className="font-bold text-lg">Reject Document</h3>
+              <p className="py-2">Please provide a reason for rejection:</p>
+              <textarea
+                className="textarea textarea-ghost w-full mb-4"
+                placeholder="Reason for rejection"
+                value={rejectReason}
+                onChange={(e) => setRejectReason(e.target.value)}
+                rows={3}
+                style={{ minWidth: 180 }}
+              />
+              <div className="modal-action flex gap-2">
+                <form method="dialog">
+                  <button className="btn">Close</button>
+                </form>
+                <button
+                  className="btn btn-primary"
+                  onClick={async () => {
+                    await handleReject(rejectReason);
+                    setRejectReason("");
+                    setShowRejectReason(false);
+                  }}
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </dialog>
+        )}
+      </div>
+    );
+  }
+
+  // --- DESKTOP UI (your original layout) ---
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-amber-100 flex flex-col items-center py-10 px-2">
       <Toaster position="top-center" />
