@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import API from "../utils/api";
 import Navbar from "../components/Navbar";
 import { motion } from "framer-motion";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import { Download, Eye, Trash2 } from "lucide-react";
 import { FiInfo } from "react-icons/fi";
 import Footer from "../components/Footer";
+import { CgMail } from "react-icons/cg";
 
 const SignedDoc = () => {
   const [loading, setLoading] = useState(true);
@@ -16,6 +17,9 @@ const SignedDoc = () => {
   const [infoDoc, setInfoDoc] = useState(null); // <-- NEW STATE
   const [auditTrail, setAuditTrail] = useState([]);
   const [auditLoading, setAuditLoading] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [shareDocId, setShareDocId] = useState(null);
+  const [recipient, setRecipient] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -82,6 +86,37 @@ const SignedDoc = () => {
     }
   };
 
+  //Share function
+  const handleShare = (doc) => {
+    setShareDocId(doc._id);
+    setRecipient("");
+    setShowShareModal(true);
+  };
+
+  const sendShare = async () => {
+    if (!recipient) {
+      toast.error("Please enter recipient email");
+      return;
+    }
+    try {
+      const token = localStorage.getItem("token");
+      const res = await API.post(
+        "share",
+        { fileId: shareDocId, recipient },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log(res);
+      if (res.status == 200) {
+        toast.success(res.data.msg); // Show backend message
+      } else {
+        toast.success("Document shared!");
+      }
+      setShowShareModal(false);
+    } catch (err) {
+      toast.error("Failed to share document");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-amber-100">
       <Navbar />
@@ -142,7 +177,8 @@ const SignedDoc = () => {
                     </span>
                   )}
                 </div>
-                <div className="flex flex-row gap-4 mt-4 md:mt-0">
+                <div className="flex flex-row gap-2 mt-4 md:mt-0">
+                  {/* Preview */}
                   {doc.signedFile ? (
                     <motion.button
                       onClick={() =>
@@ -151,27 +187,31 @@ const SignedDoc = () => {
                           "_blank"
                         )
                       }
-                      className="bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-white text-sm px-4 py-2 rounded-lg font-semibold shadow transition-all flex items-center justify-center"
+                      className="w-10 h-10 flex items-center justify-center rounded-lg bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 shadow transition-all"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.97 }}
                       title="Preview"
                     >
-                      <Eye className="w-5 h-5" />
+                      <Eye className="w-5 h-5 text-white" />
                     </motion.button>
                   ) : (
                     <span className="text-red-500 text-xs">
                       No signed PDF available
                     </span>
                   )}
+
+                  {/* Delete */}
                   <button
                     onClick={() => handleDelete(doc._id)}
-                    className="bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2 rounded-lg font-semibold shadow transition-all flex items-center justify-center"
+                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-red-500 hover:bg-red-600 shadow transition-all"
                     title="Delete"
                   >
-                    <Trash2 className="w-5 h-5" />
+                    <Trash2 className="w-5 h-5 text-white" />
                   </button>
+
+                  {/* Info */}
                   <motion.button
-                    className="text-4xl flex justify-center items-center bg-indigo-500 hover:bg-indigo-600 rounded-full p-0.5"
+                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-indigo-500 hover:bg-indigo-600 shadow transition-all"
                     type="button"
                     whileHover={{ scale: 1.15, rotate: 20 }}
                     whileTap={{ scale: 0.95, rotate: -10 }}
@@ -180,9 +220,20 @@ const SignedDoc = () => {
                       transition: { repeat: Infinity, duration: 2 },
                     }}
                     title="Info"
-                    onClick={() => handleInfo(doc)} // <-- LINK MODAL
+                    onClick={() => handleInfo(doc)}
                   >
-                    <FiInfo className="text-white" />
+                    <FiInfo className="w-5 h-5 text-white" />
+                  </motion.button>
+
+                  {/* Share */}
+                  <motion.button
+                    onClick={() => handleShare(doc)}
+                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-white border border-gray-300 shadow transition-all"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.97 }}
+                    title="Share"
+                  >
+                    <CgMail className="w-5 h-5 text-gray-800" />
                   </motion.button>
                 </div>
               </motion.div>
@@ -284,7 +335,32 @@ const SignedDoc = () => {
           </div>
         </div>
       </dialog>
+
+      {/* Share Modal */}
+      {showShareModal && (
+        <dialog open className="modal" onClose={() => setShowShareModal(false)}>
+          <div className="modal-box">
+            <h3 className="font-bold text-lg mb-2">Share Document</h3>
+            <input
+              type="email"
+              className="input input-bordered w-full mb-4"
+              placeholder="Recipient's email"
+              value={recipient}
+              onChange={(e) => setRecipient(e.target.value)}
+            />
+            <div className="modal-action flex gap-2">
+              <button className="btn" onClick={() => setShowShareModal(false)}>
+                Cancel
+              </button>
+              <button className="btn btn-primary" onClick={sendShare}>
+                Share
+              </button>
+            </div>
+          </div>
+        </dialog>
+      )}
       <Footer/>
+      <Toaster position="top-center" />
     </div>
   );
 };
