@@ -165,7 +165,7 @@ export default function PDFPreview() {
       toast.dismiss();
       toast.success("Signed PDF ready!");
 
-      window.open(`http://localhost:5000/${res.data.signedFile}`, "_blank");
+      window.open(`https://signetflow-backend.onrender.com/${res.data.signedFile}`, "_blank");
       navigate("/home");
     } catch (err) {
       toast.dismiss();
