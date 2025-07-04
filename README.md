@@ -129,6 +129,7 @@ Finalize signed PDF: /signature/finalize
 Send Email: /share/send
 
 
+
 🌟 Pages & Routes
 
 ✅ /register – User signup
@@ -142,6 +143,7 @@ Send Email: /share/send
 ✅ /preview/:id – Preview and sign PDF
 
 ✅ /signed-documents – List of signed PDFs with email share
+
 
 
 💻 Technologies Used
@@ -163,6 +165,7 @@ Send Email: /share/send
 ✅ Lucide Icons
 
 
+
 🌐 Deployment
 
 ✅ Netlify recommended for frontend
@@ -172,11 +175,13 @@ Send Email: /share/send
 ✅ MongoDB Atlas for database
 
 
+
 ❤️ Contributions
 
 ✅ Fork, Star, Submit PRs!
 
 ✅ Open issues to suggest features or report bugs.
+
 
 
 📜 License
