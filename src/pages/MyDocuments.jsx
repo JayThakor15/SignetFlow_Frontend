@@ -130,6 +130,8 @@ export default function MyDocuments() {
                     <a
                       href={`https://signetflow-backend.onrender.com/uploads/${doc.filename}`}
                       download={doc.originalname}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded-lg font-semibold shadow transition-all flex items-center justify-center"
                       title="Download"
                     >
