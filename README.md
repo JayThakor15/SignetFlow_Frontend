@@ -6,23 +6,76 @@ Easily upload, preview, sign, and share PDFs digitally, with smooth UI and robus
 Built with React, Tailwind CSS, react-pdf, Axios, Framer Motion.
 
 🚀 Features
+
 ✅ User registration and login with JWT
+
 ✅ Upload PDF documents securely
+
 ✅ Preview PDFs with react-pdf
+
 ✅ Place signatures with drag-and-drop, custom fonts, (x,y) positions
+
 ✅ Font selection for personalized signatures
+
 ✅ Signature status: Pending, Signed, Rejected
+
 ✅ Audit trail viewing for signer, timestamp, IP
+
 ✅ Email signed documents directly
+
 ✅ Responsive and modern UI
+
 ✅ Works seamlessly with Render/Netlify/MongoDB Atlas
+
 
 📂 Project Structure
  /signetflow-frontend 
  
  ├── /src 
 
- │ ├── /components │ │ ├── Navbar.jsx │ │ ├── Footer.jsx │ │ └── (other shared components) │ ├── /pages │ │ ├── Login.jsx │ │ ├── Register.jsx │ │ ├── Home.jsx │ │ ├── Upload.jsx │ │ ├── MyDocuments.jsx │ │ ├── Preview.jsx │ │ └── SignedDocuments.jsx │ ├── /utils │ │ └── api.js # Axios instance with baseURL │ ├── /context │ │ └── AuthContext.js # Global auth state │ ├── App.jsx │ └── main.jsx ├── public │ ├── index.html │ └── favicon.ico └── package.json
+ │ ├── /components │ 
+ 
+ │ ├── Navbar.jsx │
+ 
+ │ ├── Footer.jsx │ 
+ 
+ │ └── (other shared components) │
+ 
+ ├── /pages │
+ 
+ │ ├── Login.jsx │
+ 
+ │ ├── Register.jsx 
+ 
+ │ │ ├── Home.jsx │
+ 
+ │ ├── Upload.jsx │
+ 
+ │ ├── MyDocuments.jsx │
+ 
+ │ ├── Preview.jsx │
+ 
+ │ └── SignedDocuments.jsx │
+ 
+ ├── /utils │
+ 
+ │ └── api.js # Axios instance with baseURL │
+ 
+ ├── /context │
+ 
+ │ └── AuthContext.js # Global auth state │
+ 
+ ├── App.jsx │
+ 
+ └── main.jsx 
+ 
+ ├── public │
+ 
+ ├── index.html │
+ 
+ └── favicon.ico 
+ 
+ └── package.json
 
 
 ⚙️ Installation
@@ -63,17 +116,17 @@ http://localhost:5173
 
 🔗 Example API Connections
 
-Login/Register: ${VITE_API_URL}/auth/login
+Login/Register: /auth/login
 
-Upload document: ${VITE_API_URL}/docs/upload
+Upload document: /docs/upload
 
-Fetch docs: ${VITE_API_URL}/docs
+Fetch docs: /docs
 
-Place signature: ${VITE_API_URL}/signature/place
+Place signature: /signature/place
 
-Finalize signed PDF: ${VITE_API_URL}/signature/finalize
+Finalize signed PDF: /signature/finalize
 
-Send Email: ${VITE_API_URL}/share/send
+Send Email: /share/send
 
 
 🌟 Pages & Routes
