@@ -1,67 +1,131 @@
-# 🚀 SignetFlow – Frontend
+✨ SignetFlow Frontend
+A modern React-based frontend for SignetFlow, the all-in-one e-signature platform.
 
-SignetFlow is a secure, modern, and easy-to-use digital document signing application built using the MERN stack. This repository contains the **React.js + Tailwind CSS** frontend for the DocuMark platform.
+Easily upload, preview, sign, and share PDFs digitally, with smooth UI and robust authentication.
 
----
+Built with React, Tailwind CSS, react-pdf, Axios, Framer Motion.
 
-## 🖥️ Tech Stack
+🚀 Features
+✅ User registration and login with JWT
+✅ Upload PDF documents securely
+✅ Preview PDFs with react-pdf
+✅ Place signatures with drag-and-drop, custom fonts, (x,y) positions
+✅ Font selection for personalized signatures
+✅ Signature status: Pending, Signed, Rejected
+✅ Audit trail viewing for signer, timestamp, IP
+✅ Email signed documents directly
+✅ Responsive and modern UI
+✅ Works seamlessly with Render/Netlify/MongoDB Atlas
 
-- ⚛️ React.js (CRA)
-- 💨 Tailwind CSS
-- 🌐 Axios (API Calls)
-- 🧭 React Router
-- 🔐 JWT Auth (via backend)
+📂 Project Structure
+ /signetflow-frontend 
+ 
+ ├── /src 
 
----
-
-## 📸 Features
-
-- ✅ Responsive landing page
-- ✅ User registration and login
-- ✅ JWT token storage in localStorage
-- ✅ Form validations
-- ✅ Route protection (coming soon)
-
----
-
-## 🚀 Getting Started
-
-### 1. Clone the repo
-
-bash
-git clone https://github.com/signetflow/frontend.git
-cd frontend
+ │ ├── /components │ │ ├── Navbar.jsx │ │ ├── Footer.jsx │ │ └── (other shared components) │ ├── /pages │ │ ├── Login.jsx │ │ ├── Register.jsx │ │ ├── Home.jsx │ │ ├── Upload.jsx │ │ ├── MyDocuments.jsx │ │ ├── Preview.jsx │ │ └── SignedDocuments.jsx │ ├── /utils │ │ └── api.js # Axios instance with baseURL │ ├── /context │ │ └── AuthContext.js # Global auth state │ ├── App.jsx │ └── main.jsx ├── public │ ├── index.html │ └── favicon.ico └── package.json
 
 
-2. Install dependencies
+⚙️ Installation
+
+1️⃣ Clone the repo
+
+git clone https://github.com/JayThakor/Signetflow-Frontend.git
+
+cd signetflow-frontend
+
+
+2️⃣ Install dependencies
+
 npm install
 
-3. Start the app
-npm start
+Than add your backend url into utils > api 
 
-Frontend will be available at: http://localhost:3000
-
-🔌 Backend Integration
-Make sure the backend is running on http://localhost:5000, or update the baseURL in:
-src/utils/api.js
-
-const API = axios.create({
-  baseURL: "http://localhost:5000/api",
-});
+http://localhost:5000/api
 
 
-📁 Folder Structure
-src/
-├── assets/         # images, logos
-├── components/     # reusable UI components
-├── pages/          # route-level components (Login, Register, LandingPage)
-├── utils/          # Axios config
-├── App.js
-└── index.js
+✅ For production:
+
+For peoduction we can replace your local server link to deployed backend link in util > api.js
+
+https://signetflow-backend.onrender.com/api
+
+
+🏃‍♂️ Running Locally
+
+npm run dev
+
+
+✅ Opens on
+
+
+http://localhost:5173
+
+
+🔗 Example API Connections
+
+Login/Register: ${VITE_API_URL}/auth/login
+
+Upload document: ${VITE_API_URL}/docs/upload
+
+Fetch docs: ${VITE_API_URL}/docs
+
+Place signature: ${VITE_API_URL}/signature/place
+
+Finalize signed PDF: ${VITE_API_URL}/signature/finalize
+
+Send Email: ${VITE_API_URL}/share/send
+
+
+🌟 Pages & Routes
+
+✅ /register – User signup
+
+✅ /login – User login
+
+✅ /home – Dashboard, upload new PDF
+
+✅ /my-documents – View uploaded PDFs
+
+✅ /preview/:id – Preview and sign PDF
+
+✅ /signed-documents – List of signed PDFs with email share
+
+
+💻 Technologies Used
+
+✅ React
+
+✅ Vite
+
+✅ Tailwind CSS
+
+✅ Axios
+
+✅ React Router
+
+✅ react-pdf
+
+✅ Framer Motion
+
+✅ Lucide Icons
+
+
+🌐 Deployment
+
+✅ Netlify recommended for frontend
+
+✅ Render for backend
+
+✅ MongoDB Atlas for database
+
+
+❤️ Contributions
+
+✅ Fork, Star, Submit PRs!
+
+✅ Open issues to suggest features or report bugs.
+
+
 📜 License
-This project is licensed under the MIT License.
 
-👨‍💻 Author
-Made with 💙 by the Jay Thakor
-
-Let me know if you want a similar one for the **backend**, or a version with screenshots
+MIT License – Free to use, modify, share.
