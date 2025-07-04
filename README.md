@@ -6,17 +6,27 @@ Easily upload, preview, sign, and share PDFs digitally, with smooth UI and robus
 Built with React, Tailwind CSS, react-pdf, Axios, Framer Motion.
 
 🚀 Features
-<<<<<<< HEAD
+
 ✅ User registration and login with JWT
+
 ✅ Upload PDF documents securely
+
 ✅ Preview PDFs with react-pdf
+
 ✅ Place signatures with drag-and-drop, custom fonts, (x,y) positions
+
 ✅ Font selection for personalized signatures
+
 ✅ Signature status: Pending, Signed, Rejected
+
 ✅ Audit trail viewing for signer, timestamp, IP
+
 ✅ Email signed documents directly
+
 ✅ Responsive and modern UI
+
 ✅ Works seamlessly with Render/Netlify/MongoDB Atlas
+
 
 📂 Project Structure
 signetflow-frontend/
@@ -48,132 +58,38 @@ signetflow-frontend/
     └── /utils
         └── api.js
 
+
 ⚙️ Installation
+
 1️⃣ Clone the repo
+
 git clone https://github.com/JayThakor15/Signetflow-Frontend.git
+
 cd signetflow-frontend
 
+
 2️⃣ Install dependencies
+
 npm install
 
+
 3️⃣ Set up environment variables
+
 Create a .env file in the root directory.
+
 Add VITE_API_URL with your backend API URL. and pass it to utils > api.js
+
+
 ✅ For production:
 
 VITE_API_URL=https://signetflow-backend.onrender.com/api
+
 Add VITE_API_URL in utils > api.js
 
-🏃‍♂️ Running Locally
-npm run dev
-✅ Opens on
-
-http://localhost:5173
-=======
-
-✅ User registration and login with JWT
-
-✅ Upload PDF documents securely
-
-✅ Preview PDFs with react-pdf
-
-✅ Place signatures with drag-and-drop, custom fonts, (x,y) positions
-
-✅ Font selection for personalized signatures
-
-✅ Signature status: Pending, Signed, Rejected
-
-✅ Audit trail viewing for signer, timestamp, IP
-
-✅ Email signed documents directly
-
-✅ Responsive and modern UI
-
-✅ Works seamlessly with Render/Netlify/MongoDB Atlas
-
-
-📂 Project Structure
- /signetflow-frontend 
- 
- ├── /src 
-
- │ ├── /components │ 
- 
- │ ├── Navbar.jsx │
- 
- │ ├── Footer.jsx │ 
- 
- │ └── (other shared components) │
- 
- ├── /pages │
- 
- │ ├── Login.jsx │
- 
- │ ├── Register.jsx 
- 
- │ │ ├── Home.jsx │
- 
- │ ├── Upload.jsx │
- 
- │ ├── MyDocuments.jsx │
- 
- │ ├── Preview.jsx │
- 
- │ └── SignedDocuments.jsx │
- 
- ├── /utils │
- 
- │ └── api.js # Axios instance with baseURL │
- 
- ├── /context │
- 
- │ └── AuthContext.js # Global auth state │
- 
- ├── App.jsx │
- 
- └── main.jsx 
- 
- ├── public │
- 
- ├── index.html │
- 
- └── favicon.ico 
- 
- └── package.json
-
-
-⚙️ Installation
-
-1️⃣ Clone the repo
-
-git clone https://github.com/JayThakor/Signetflow-Frontend.git
-
-cd signetflow-frontend
-
-
-2️⃣ Install dependencies
-
-npm install
-
-Than add your backend url into utils > api 
-
-http://localhost:5000/api
-
-
-✅ For production:
-
-For peoduction we can replace your local server link to deployed backend link in util > api.js
-
-https://signetflow-backend.onrender.com/api
-
 
 🏃‍♂️ Running Locally
 
 npm run dev
-
-
-✅ Opens on
-
 
 http://localhost:5173
 
