@@ -15,7 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Home />} /> {/* Add this line */}
+        <Route path="/home" element={<Home />} /> 
         <Route path="/my-documents" element={<MyDocuments />} />
         <Route path="/pending-doc" element={<PendingDoc />} />
         <Route path="/signed-doc" element={<SignedDoc />} />
